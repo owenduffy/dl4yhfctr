@@ -51,8 +51,10 @@
 #else
 #ifdef DISPLAY_VARIANT_3    ; added 2005-03-21 :
   #define DISP_VARIANT 3    ; similar as (2), but for COMMON ANODE display
-  #define COMMON_ANODE   1
-  #define COMMON_CATHODE 0
+;  #define COMMON_ANODE   1
+;  #define COMMON_CATHODE 0
+  #define COMMON_ANODE   0 ;to suit TB-244746 PCB
+  #define COMMON_CATHODE 1
 #else
   #define DISP_VARIANT 4
   #define COMMON_ANODE   0
@@ -679,29 +681,19 @@ Digit2SevenSeg:
 Digit2MuxValue:     ; 
           addwf PCL,f  ; caution: this is 'PCL' only, not 'PC'
           ; Note: If the program counter is affected, a command requires to instruction cycles (=8 osc cycles)
-#if (DISP_VARIANT==1)  ; muliplexer values for DISPLAY VARIANT #1 :
-          retlw b'11110111'        ; most significant digit is on   PA3 (!)
-          retlw b'11111110'        ; next less significant dig. on  PA0 (!)
-          retlw b'11111011'        ; next less significant dig. on  PA2 (!)
-          retlw b'11111101'        ; 4th (sometimes the last) digit PA1 (!)
-          retlw b'11111111'        ; 5th (OPTIONAL) least significant digit = NOT (PA3+PA2+PA1+PA0)
-#endif   ; DISPLAY VARIANT #1
-#if (DISP_VARIANT==2)  ; muliplexer values for DISPLAY VARIANT #2 (5 digits, COMMON CATHODE) :
-          retlw b'11110111'        ; most significant digit is on   PA3 (!)
-          retlw b'11111011'        ; next less significant dig. on  PA2 (!!)
-          retlw b'11111110'        ; next less significant dig. on  PA0 (!!)
-          retlw b'11111101'        ; 4th (sometimes the last) digit PA1 (!)
-          retlw b'11111111'        ; 5th (OPTIONAL) least significant digit = NOT (PA3+PA2+PA1+PA0)
-#endif   ; DISPLAY VARIANT #2
-#if (DISP_VARIANT==3)  ; muliplexer values for DISPLAY VARIANT #3 (5 digits, COMMON ANODE) :
-                       ; Unused bits (b7..b4) are left HIGH as above .
+#if (COMMON_ANODE) ; muliplexer values
           retlw b'11111000'        ; most significant digit is on   PA3 (!)
           retlw b'11110100'        ; next less significant dig. on  PA2 (!!)
           retlw b'11110001'        ; next less significant dig. on  PA0 (!!)
           retlw b'11110010'        ; 4th (sometimes the last) digit PA1 (!)
           retlw b'11110000'        ; 5th (OPTIONAL) least significant digit = NOT (PA3+PA2+PA1+PA0)
-#endif   ; DISPLAY VARIANT #2
-
+#else
+          retlw b'11110111'        ; most significant digit is on   PA3 (!)
+          retlw b'11111011'        ; next less significant dig. on  PA2 (!!)
+          retlw b'11111110'        ; next less significant dig. on  PA0 (!!)
+          retlw b'11111101'        ; 4th (sometimes the last) digit PA1 (!)
+          retlw b'11111111'        ; 5th (OPTIONAL) least significant digit = NOT (PA3+PA2+PA1+PA0)
+#endif
 
 
 ;--------------------------------------------------------------------------
