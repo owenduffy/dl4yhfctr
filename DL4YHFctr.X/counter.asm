@@ -46,15 +46,13 @@
 #else
 #ifdef DISPLAY_VARIANT_2
   #define DISP_VARIANT 2    ; 5 digits, new layout, COMMON CATHODE
-  #define COMMON_ANODE   0
+  #define COMMON_ANODE   0 ;to suit TB-244746 PCB
   #define COMMON_CATHODE 1
 #else
 #ifdef DISPLAY_VARIANT_3    ; added 2005-03-21 :
   #define DISP_VARIANT 3    ; similar as (2), but for COMMON ANODE display
-;  #define COMMON_ANODE   1
-;  #define COMMON_CATHODE 0
-  #define COMMON_ANODE   0 ;to suit TB-244746 PCB
-  #define COMMON_CATHODE 1
+  #define COMMON_ANODE   1
+  #define COMMON_CATHODE 0
 #else
   #define DISP_VARIANT 4
   #define COMMON_ANODE   0
